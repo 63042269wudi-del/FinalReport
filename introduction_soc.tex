@@ -1,0 +1,273 @@
+\chapter{Important definition for report}\label{ch:introduction1}
+
+\section{SOC meaning}\label{sec:socdef}
+
+Self-organized criticality was introduced by Bak, Tang, and Wiesenfeld \cite{bak1987soc,bak1988soc}, usually abbreviated as SOC, describes a class of complex systems that naturally evolve towards a critical state without the need for carefully tuned external parameters. In such systems, small local changes can sometimes produce responses of many different sizes, ranging from negligible events to large-scale avalanches. This means that the size of an event is not necessarily proportional to the size of its cause.
+
+A standard example of SOC is the Bak--Tang--Wiesenfeld sandpile model. In this model, grains of sand are added slowly to a lattice. When the height at a site exceeds a fixed threshold, that site topples and redistributes grains to its neighbours. This redistribution may cause further topplings, producing an avalanche. Although the local rules are simple, the collective behaviour of the system can be highly non-trivial.
+
+A key feature of SOC systems is scale invariance. After the system reaches a statistically stationary state, there is no single characteristic avalanche size. Instead, small avalanches occur frequently, while large avalanches occur more rarely, often following a power-law distribution. This makes the sandpile model a useful framework for studying how complex macroscopic behaviour can arise from simple microscopic rules.
+
+In this chapter, we introduce the idea of SOC and use the sandpile model as a simple computational example. The goal is to investigate how repeated local interactions can drive the system towards a critical state, and how avalanche statistics can be used to identify scale-invariant behaviour.
+
+\section{BTW-model Notation}\label{sec:btwmodeldef}
+
+Let the sandpile be defined on an $N\times M$ rectangular lattice. Write
+\[
+    h_t(i,j)
+\]
+for the number of grains at site $(i,j)$ after the $t$-th grain addition, where
+\[
+    1\leq i\leq N,\qquad 1\leq j\leq M.
+\]
+A site $(i,j)$ is called \emph{unstable} if
+\[
+    h_t(i,j)\geq 4.
+\]
+When an unstable site topples, its height decreases by $4$, and each of its four nearest neighbours receives one grain:
+\[
+    h(i,j)\mapsto h(i,j)-4,
+\]
+\[
+    h(i\pm 1,j)\mapsto h(i\pm 1,j)+1,
+    \qquad
+    h(i,j\pm 1)\mapsto h(i,j\pm 1)+1.
+\]
+If a grain is sent outside the boundary of the lattice, then it is lost from the system.
+
+\section*{Question 1}
+
+\textbf{Why is it that a system exhibiting scale invariance will have phenomena which are described by a power law?}
+
+Let $s$ denote the size of an event. For example, in the sandpile model, $s$ may denote the number of topplings in an avalanche. Let $P(s)$ denote the frequency or probability distribution of events of size $s$.
+
+Scale invariance means that if we rescale the event size by a positive constant factor $a>0$, the distribution should have the same shape, up to an overall multiplicative factor. That is, we expect
+\[
+    P(as)=C(a)P(s),
+\]
+where $C(a)$ depends only on the scaling factor $a$, not on $s$.
+
+A function satisfying this kind of scaling relation is a power law. Suppose
+\[
+    P(s)=Cs^{-\alpha},
+\]
+where $C>0$ and $\alpha>0$ are constants. Then
+\[
+    P(as)=C(as)^{-\alpha}
+    =Ca^{-\alpha}s^{-\alpha}
+    =a^{-\alpha}P(s).
+\]
+Thus, after rescaling $s\mapsto as$, the distribution is changed only by the multiplicative constant $a^{-\alpha}$, while the functional form is unchanged.
+
+Therefore, if a system has no characteristic event-size scale, then the natural form of its event-size distribution is
+\[
+    P(s)\propto s^{-\alpha}.
+\]
+This explains why scale-invariant systems are commonly associated with power-law distributions. In the BTW sandpile model, this means that avalanche sizes may occur over a wide range of scales, with small avalanches being common and large avalanches being rare, but not exponentially rare, this will be seen from the data I collected.
+
+\section*{Question 2}
+
+\textbf{In what ways does the BTW model satisfy the properties required for a system to exhibit self-organized criticality?}
+
+A system exhibiting self-organized criticality usually has the following properties:
+
+\begin{enumerate}[label=(\roman*)]
+    \item it is slowly driven;
+    \item it has local interactions;
+    \item it has dissipation(we lose the quantity that is been slowly added);
+    \item it evolves toward a critical state without fine-tuning of external parameters;
+    \item it produces avalanches over many different scales.
+\end{enumerate}
+
+The BTW model satisfies these properties as follows.
+
+\subsection*{Slow driving}
+
+At each time step, only one grain of sand is added to the lattice. Hence the system is driven slowly and locally. The system is not forced by a large global perturbation \footnote{It should be said that this is within the realm of what uuually happens and we don’t consider largeperturbations to the syssem (succ as a large meteorite crashing on Earth whicc may ccange the tecconicsdrassically, cause enormous foress ffres, result in epidemicsas the ecosyssem ccanges,and cause the ffnancialmarket to crash as civilization collapses)}. Instead, small local changes gradually build up stress in the system, causing avalanches.
+
+\subsection*{Local interactions}
+
+The toppling is local. When a site $(i,j)$ topples, it only affects its four nearest neighbours:
+\[
+    (i+1,j),\quad (i-1,j),\quad (i,j+1),\quad (i,j-1).
+\]
+There are no long-range interactions in the basic model. Therefore, all large-scale behaviour comes from repeated local redistribution of sand.
+
+\subsection*{Dissipation}
+
+The finite boundary of the lattice provides dissipation. If a boundary site topples, then some grains may be sent outside the lattice and are deleted from the system. Thus sand can enter the system through grain addition and leave the system through the boundary.
+
+\subsection*{Self-organization}
+
+No external parameter needs to be tuned to a critical value. Starting from an empty lattice, the average amount of sand initially increases. Eventually, avalanches carry sand to the boundary, where grains are lost. After a transient period, the system reaches a statistically stationary regime where the average input of sand is balanced by the average loss of sand.
+
+\subsection*{Avalanches over many scales}
+
+A single added grain may cause no toppling, a small avalanche, or a very large avalanche. Hence the system produces events over a broad range of sizes. In the critical regime, one expects avalanche statistics to be broad and often approximately described by power laws.
+
+Therefore, the BTW model is a standard example of a self-organized critical system because it is slowly driven, locally interacting, dissipative, and naturally evolves toward a critical state without external fine-tuning.
+
+\section*{Question 3}
+
+\textbf{Why is it important for the table to have finite boundaries? What if we had an infinite lattice, but dropped the sand on only a finite subset of the lattice?}
+
+The finite boundary is important because it allows sand to leave the system. This is the dissipation mechanism of the BTW model.
+
+Define the total amount of sand in the system by
+\[
+    S_t=\sum_{i=1}^{N}\sum_{j=1}^{M} h_t(i,j).
+\]
+Each grain addition increases $S_t$ by $1$. Interior topplings conserve the total amount of sand, because the toppling site loses $4$ grains and its four neighbours receive $1$ grain each. Hence the total change from an interior toppling is
+\[
+    -4+1+1+1+1=0.
+\]
+However, boundary topplings can decrease $S_t$, because some grains are sent outside the lattice and are deleted. Therefore, in a long-time statistically stationary state, we expect the average input rate to balance the average dissipation rate:
+\[
+    \text{average sand input rate}
+    =
+    \text{average sand loss rate}.
+\]
+Since one grain is added per time step, the average loss rate should also approach one grain per time step in the stationary regime.
+
+If the lattice were infinite, there would be no boundary where sand could be lost. If sand were dropped only on a finite subset of an infinite lattice, then the local region might still generate avalanches, but the total amount of sand in the infinite system would keep increasing because no grains are deleted. Sand could spread farther and farther away, but it would not leave the system.
+
+Thus, an infinite lattice lacks the same dissipative mechanism. Without dissipation, the model is no longer the same open driven-dissipative system. Consequently, it is not clear that it would reach the same kind of statistically stationary SOC state as the finite-boundary BTW model.
+
+Hence finite boundaries are important because they make the BTW model an open system:
+\[
+    \text{sand enters by driving}
+    \quad\text{and}\quad
+    \text{sand leaves through the boundary}.
+\]
+
+\section*{Question 4}
+
+\textbf{Without simulating anything, what might you expect the average height to be once the system has reached a steady state? Compare your initial expectation to what your simulation does.}
+
+The average height is defined by
+\[
+    \langle h_t\rangle
+    :=
+    \frac{1}{NM}\sum_{i=1}^{N}\sum_{j=1}^{M}h_t(i,j).
+\]
+
+A stable site must satisfy
+\[
+    h_t(i,j)<4.
+\]
+Therefore, the possible stable heights are
+\[
+    h_t(i,j)\in\{0,1,2,3\}.
+\]
+
+A first naive expectation is that the stable heights $0,1,2,3$ might occur equally often. If this were true, then the average height would be
+\[
+    \langle h\rangle_{\mathrm{naive}}
+    =
+    \frac{0+1+2+3}{4}
+    =
+    \frac{3}{2}.
+\]
+So a very simple first guess is
+\[
+    \langle h\rangle\approx 1.5.
+\]
+
+However, this assumption is too naive. The recurrent configurations of the BTW model are not uniformly distributed over all stable configurations. The system tends to organize itself near a critical state, where many sites are close to becoming unstable. Therefore, heights $2$ and $3$ should occur more frequently than a uniform distribution would suggest.
+
+Thus a more realistic expectation is
+\[
+    1.5<\langle h\rangle<4.
+\]
+For the standard two-dimensional BTW model with open boundaries and a large lattice, one typically expects the long-time average height to be around
+\[
+    \langle h\rangle \approx 2.1\text{--}2.2.
+\]
+
+In simulation, one should expect the following behaviour. Starting from an empty lattice,
+\[
+    \langle h_0\rangle=0.
+\]
+As grains are added, $\langle h_t\rangle$ initially increases. After sufficiently many grain additions, boundary losses begin to balance input. Then $\langle h_t\rangle$ should not become exactly constant, but should fluctuate around a stable long-time mean:
+\[
+    \langle h_t\rangle \approx \text{constant in a long-time statistical sense}.
+\]
+
+Therefore, the system should reach a statistically stationary average height rather than a perfectly fixed height configuration.
+
+\section*{Question 5}
+
+\textbf{Explain the difference between a steady state, a statistically stationary state, and an equilibrium state. Do you expect the BTW model to reach an equilibrium state or a statistically stationary state? In terms of system observables, how might we characterize this state?}
+
+\subsection*{Steady state}
+
+A steady state means that the state of the system no longer changes in time. For the sandpile, a strict steady state would mean
+\[
+    h_{t+1}(i,j)=h_t(i,j)
+\]
+for every site $(i,j)$ and for all sufficiently large $t$.
+
+The BTW model does not reach this kind of strict steady state because grains keep being added and avalanches keep changing the configuration.
+
+\subsection*{Statistically stationary state}
+
+A statistically stationary state means that the microscopic configuration continues to change, but the statistical properties of the system become time-independent.
+
+For example, after a transient period, the following observables may fluctuate around stable long-time values:
+\[
+    \langle h_t\rangle,
+\]
+\[
+    P(s),
+\]
+where $P(s)$ is the avalanche-size distribution, and
+\[
+    \text{average sand loss rate}.
+\]
+
+Thus the exact configuration $h_t$ keeps changing, but its statistical behaviour becomes stable.
+
+\subsection*{Equilibrium state}
+
+An equilibrium state usually refers to a closed system that has relaxed to thermodynamic equilibrium. In equilibrium, there is typically no net flux of mass or energy through the system, and the system often satisfies detailed balance.
+
+The BTW model is not an equilibrium system. It is continuously driven by grain addition and continuously dissipates sand through the boundary. Therefore, it has a nonzero flux:
+\[
+    \text{input by grain addition}
+    \longrightarrow
+    \text{redistribution by avalanches}
+    \longrightarrow
+    \text{loss through boundary}.
+\]
+
+Hence the BTW model is a non-equilibrium driven-dissipative system.
+
+\subsection*{Expected state of the BTW model}
+
+The BTW model is expected to reach a statistically stationary state, not an equilibrium state. In this state, the microscopic configuration keeps changing, but long-time statistical observables stabilize.
+
+We may characterize this statistically stationary state using observables such as:
+\[
+    \langle h_t\rangle
+    =
+    \frac{1}{NM}\sum_{i=1}^{N}\sum_{j=1}^{M}h_t(i,j),
+\]
+\[
+    P(s),
+\]
+where $s$ is the number of topplings in an avalanche,
+\[
+    P(A),
+\]
+where $A$ is the number of distinct toppled sites,
+\[
+    P(L),
+\]
+where $L$ is the amount of sand lost at the boundary, and also a chosen avalanche length observable.
+
+In the statistically stationary SOC regime, we expect the average height to fluctuate around a long-time mean, while avalanche observables have stable long-time distributions. In particular, the avalanche-size distribution may approximately satisfy a power-law relation of the form
+\[
+    P(s)\propto s^{-\alpha}
+\]
+for some exponent $\alpha>0$ over an appropriate scaling range.
+

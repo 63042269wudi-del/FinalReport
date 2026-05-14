@@ -1,5 +1,7 @@
+\documentclass[a4paper, 10.5pt, oneside]{report} %book format on A4 paper with size 12 font
+
 %------------PREAMBLE
-\include{preamble}
+\input{preamble}
 \usepackage{morefloats}
 %---------------------------
                                           
@@ -7,14 +9,19 @@
 
 %---------------------------TITLE PAGE
 \include{cover}
-%---------------------------
+
+%---------------------------ABSTRACT
+\begin{abstract}
+This report investigates self-organized criticality in the Bak--Tang--Wiesenfeld sandpile model. The model is simulated on a finite two-dimensional lattice, where grains are added slowly and unstable sites topple by distributing grains to their nearest neighbours. Open boundaries allow grains to leave the system, making the model a driven dissipative system. The main observables are the average pile height, avalanche size, avalanche area, avalanche loss, and avalanche length. The average height is used to test whether the system reaches a statistically stationary state, while avalanche distributions are used to test for scale-invariant behaviour. The standard model with uniformly random grain addition is compared with an extended model in which grains are added preferentially near the centre of the lattice. The aim is to determine whether both models display evidence of self-organized criticality and to understand how changing the driving rule affects the avalanche statistics.
+\end{abstract}
 
 %---------------------------TABLE OF CONTENTS
 \tableofcontents
 %---------------------------
 
 %---------------------------MAIN BODY
-\input{chapter1}
+\input{chapter0}
+\input{introduction_soc}
 %---------------------------
 
 %---------------------------APPENDICES
