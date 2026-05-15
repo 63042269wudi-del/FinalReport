@@ -1,0 +1,65 @@
+\chapter{Important notation for testing}\label{ch:introduction2}
+
+\section{Statistic Variable used for the report}\label{sec:vardef}
+For the important statistics fetch, we will consider the following properties:
+\begin{enumerate}[label=(\roman*)]
+	\item Topples: The number of topples required to take the grid from its initial unstable configuration to a stable one;
+	\item Area: The number of unique sites which have been toppled;
+	\item Loss: The number of grains of sand whicc are toppled off the lattice; and,
+	\item I define the avalanche length using the Manhattan distance. If the grain is added at \(x_0=(i_0,j_0)\), and \(A\) is the set of sites which topple during the avalanche, then
+
+\[
+\ell
+=
+\max_{(i,j)\in A}
+\left(
+|i-i_0|+|j-j_0|
+\right).
+\]
+
+This measures the largest number of horizontal and vertical lattice steps between the avalanche origin and any toppled site. I use the Manhattan distance
+because topplings in the BTW model only send grains to the four nearest neighbours, not diagonally. Therefore the Manhattan distance matches the geometry of the toppling rule.
+\end{enumerate}
+
+
+\section*{Question 6}
+
+\textbf{Is there a difference between sampling a syssem over time andsampling an ensemble of syssems? If so, under what circumssances? Hint: Look up the property of ergodicity and argue whether or not you believe thebtw model is ergodic.}
+
+There is a difference between sampling a system over time and sampling an ensemble of systems.
+
+Sampling a system over time means running one sandpile simulation for a long time and recording avalanche observables after the system has reached its statistically stationary state. For example, if \(A_t\) is an avalanche observable at time \(t\), such as the number of topples or the avalanche area, then the time average is
+
+\[
+\overline{A}_{\mathrm{time}}
+=
+\frac{1}{T}
+\sum_{t=1}^{T} A_t .
+\]
+
+On the other hand, sampling an ensemble of systems means running many independent simulations, usually with different random seeds or different initial conditions, and averaging the same observable over these different systems. If there are \(M\) independent simulations and \(A^{(m)}\) is the observable measured in the \(m\)-th simulation, then the ensemble average is
+
+\[
+\overline{A}_{\mathrm{ensemble}}
+=
+\frac{1}{M}
+\sum_{m=1}^{M} A^{(m)} .
+\]
+
+These two averages are not always the same. They are expected to agree only if the system is ergodic. A system is ergodic if a sufficiently long time average taken from one typical trajectory is equal to the ensemble average over many independent systems. In other words, for an observable \(A\), ergodicity means
+
+\[
+\lim_{T\to\infty}
+\frac{1}{T}
+\sum_{t=1}^{T} A_t
+=
+\mathbb{E}[A],
+\]
+
+where \(\mathbb{E}[A]\) denotes the ensemble expectation of \(A\).
+
+For the BTW sandpile model, I expect the system to be approximately ergodic after the initial transient period has been removed. The reason is that grains are added randomly, and the random driving causes the system to move through many different stable configurations. Therefore, a sufficiently long simulation should sample the statistically stationary state reasonably well.
+
+However, in a finite simulation this agreement is only approximate. The measured avalanche statistics may depend on the lattice size, the number of grain additions, and the length of the transient period. Rare large avalanches may not occur often enough in a short simulation, so the time average from one run may differ from the ensemble average over many independent runs.
+
+Therefore, in this project, I treat a long-time sample from one simulation, after removing the transient period, as an approximation to the statistically stationary ensemble. To improve reliability, one can also run several independent simulations with different random seeds and compare their avalanche distributions.

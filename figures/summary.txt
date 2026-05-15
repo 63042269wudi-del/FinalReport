@@ -1,0 +1,15 @@
+Lattice size: 50 x 50
+Stable: True
+Total mass: 5239
+Height distribution: {0: 212, 1: 418, 2: 789, 3: 1081}
+Average height = 2.095600
+Recorded avalanches: 100000
+Mean topples per step: 90.2381
+Max topples in one step: 6958
+Mean affected sites: 66.8884
+Max affected sites: 2172
+Mean grains lost: 0.9476
+Max grains lost: 79
+Mean avalanche length: 5.5091
+Max avalanche length: 88.0000
+Length metric: Manhattan distance from addition site to farthest toppled site
